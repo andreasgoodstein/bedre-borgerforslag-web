@@ -1,7 +1,18 @@
 {
     "extends": "airbnb",
+    "parser": "babel-eslint",
     "plugins": [
-        "react",
         "html"
-    ]
+    ],
+    "env": {
+        "browser": true
+    },
+    "rules": {
+        "linebreak-style": "off"
+    },
+    "settings": {
+        "import/resolver": {
+            "babel-module": {}
+        }
+    }
 }
