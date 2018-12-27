@@ -1,0 +1,47 @@
+.landing-page {
+    background-color: #f3f3f3;
+    box-sizing: border-box;
+    min-height: 100vh;
+
+    .title {
+        margin: 0 0 20px 0;
+        text-align: center;
+    }
+
+    .footer {
+        align-items: center;
+        background-color: #f3f3f3;
+        border-top: 1px solid grey;
+        box-shadow: 1px 1px 0 1px grey;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        height: 70px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+
+        @media screen and (max-width: 666px) {
+            flex-direction: column;
+        }
+
+        .text-left,
+        .text-right {
+            @media screen and (max-width: 666px) {
+                display: none;
+            }
+        }
+
+        .text-left {
+            text-align: left;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        a:first-child {
+            text-decoration: none;
+        }
+    }
+}

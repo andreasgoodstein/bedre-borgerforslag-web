@@ -1,0 +1,64 @@
+.display-forslag {
+    &:hover {
+        box-shadow: 0 1px 1px 1px grey;
+    }
+
+    a {
+        background-color: white;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 420px;
+        text-decoration: none;
+        width: 300px;
+
+        @media screen and (max-width: 666px) {
+            min-height: none;
+        }
+        
+        &:hover,
+        &:focus,
+        &:active,
+        &:visited {
+            color: inherit;
+            outline: none;
+            text-decoration: none;
+        }
+    }
+
+    &__title {
+        background-color: #0EA5FF;
+        padding: 5px;
+        
+        p {
+            color: white;            
+        }
+    }
+
+    .title {
+        padding: 0 5px;
+
+        p {
+            text-align: left;
+        }
+    }
+
+    &__content {
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 5px;
+        width: 100%;
+    
+        .row {
+            justify-content: space-between;
+            padding: 5px 0;  
+        }
+
+        .rate {
+            padding-left: 20px;
+        }
+    }
+}
