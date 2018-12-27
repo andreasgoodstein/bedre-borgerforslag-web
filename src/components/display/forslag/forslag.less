@@ -1,0 +1,41 @@
+.display-forslag {
+    background-color: white;
+    justify-content: space-between;
+    min-height: 400px;
+    width: 300px;
+
+    &__title {
+        background-color: blue;
+        padding: 5px;
+        
+        a {
+            color: white;            
+        }
+    }
+    
+    &__content {
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 5px;
+        width: 100%;
+
+        .row {
+            justify-content: space-between;
+            padding: 5px 0;  
+        }
+
+        .rate {
+            padding-left: 20px;
+        }
+
+        .title {
+            margin: 0 0 10px 0;
+
+            p {
+                text-align: left;
+            }
+        }
+    }
+}

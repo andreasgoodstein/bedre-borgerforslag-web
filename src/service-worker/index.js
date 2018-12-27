@@ -1,13 +1,11 @@
-export default () => {
+export const registerServiceWorker = async () => {
   if ('serviceWorker' in navigator) {
-    window.addEventListener('load', async () => {
-      try {
-        const registration = await navigator.serviceWorker.register('./service-worker.js');
-        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-      } catch (error) {
-        console.log('ServiceWorker  failed');
-        console.error(error);
-      }
-    });
+    await navigator.serviceWorker.register('./service-worker.js');
+  }
+};
+
+export const registerMessageListener = (messageHandler) => {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.addEventListener('message', messageHandler);
   }
 };

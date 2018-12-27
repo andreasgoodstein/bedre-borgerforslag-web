@@ -4,6 +4,7 @@
       "module-resolver", {
         "root": ["./src"]
       }
-    ]   
+    ],
+    ["@babel/plugin-proposal-optional-chaining"]
   ]
 }

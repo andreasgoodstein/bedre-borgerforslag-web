@@ -1,11 +1,18 @@
 import React from 'react';
 
+import ForslagProvider from 'components/providers/forslag';
+import ForslagList from 'components/display/forslaglist';
+
 import './landing.less';
 
 export default () => (
   <div className="landing-page container">
-    <h1>Borgerforslag</h1>
-    <h3>Her kan du se en oversigt over borgerforslagene i Danmark</h3>
-    <p>Mere tekst skal der til</p>
+    <header className="title">
+      <h1>Borgerforslag</h1>
+    </header>
+
+    <ForslagProvider>
+      <ForslagList forslagList={[]} />
+    </ForslagProvider>
   </div>
 );

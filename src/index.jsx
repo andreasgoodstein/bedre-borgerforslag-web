@@ -6,7 +6,7 @@ import { render } from 'react-dom';
 
 import 'styles/index.less';
 
-import registerServiceWorker from 'service-worker';
+import { registerServiceWorker } from 'service-worker';
 
 import LandingPage from 'components/layouts/landing';
 
@@ -17,4 +17,5 @@ const initializePage = () => {
 };
 
 registerServiceWorker();
+
 initializePage();
