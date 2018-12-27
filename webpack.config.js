@@ -81,6 +81,7 @@ module.exports = {
     new CopyWebpackPlugin([
       'src/manifest.json',
       'src/service-worker/service-worker.js',
+      'assets/**',
     ]),
   ],
 };

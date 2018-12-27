@@ -1,6 +1,7 @@
 const CACHE_NAME = 'mitdemokrati-borgerforslag-v1';
 const urlsToCache = [
   '/',
+  '/manifest.json',
 ];
 
 self.addEventListener('install', (event) => {
