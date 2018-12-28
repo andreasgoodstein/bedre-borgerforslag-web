@@ -8,7 +8,7 @@ import { statusMap } from 'helpers/status';
 import './forslag.less';
 
 const Forslag = ({ forslag }) => (
-  <article className="display-forslag column centered">
+  <article className="display-forslag column centered" role="listitem">
     <a href={getForslagLink(forslag.url)} target="_blank" rel="noopener noreferrer" aria-label="Se mere om forslaget på borgerforslag.dk">
       <div className="display-forslag__title row centered">
         <p>{forslag.externalId}</p>

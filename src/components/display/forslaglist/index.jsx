@@ -70,4 +70,4 @@ const getSortedForslagElements = (forslagList, sortKey) => {
   }
 };
 
-const getForslagElement = forslag => (<Forslag key={forslag.externalId} forslag={forslag} role="listitem" />);
+const getForslagElement = forslag => (<Forslag key={forslag.externalId} forslag={forslag}/>);
