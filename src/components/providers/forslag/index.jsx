@@ -56,8 +56,8 @@ ForslagProvider.propTypes = {
 
 export default ForslagProvider;
 
-const enrichForslagWithUpdates = ({ forslag, updates }) => forslag.map((forslag) => {
-  const forslagUpdates = updates.filter(update => update.externalId === forslag.externalId);
+const enrichForslagWithUpdates = ({ forslag, updates }) => forslag.map((forslagItem) => {
+  const forslagUpdates = updates.filter(update => update.externalId === forslagItem.externalId);
 
   const updatesLastWeek = forslagUpdates.filter(update => dateIsOlderThanDays(update.updated, 8))
     .sort((a, b) => b.updated - a.updated);
@@ -66,13 +66,13 @@ const enrichForslagWithUpdates = ({ forslag, updates }) => forslag.map((forslag)
     .sort((a, b) => b.updated - a.updated);
 
 
-  const votesThisWeek = forslag.votes - (updatesLastWeek[0]?.votes || forslag.votes);
-  const votesThisDay = forslag.votes - (updatesLast24Hours[0]?.votes || forslag.votes);
+  const votesThisWeek = forslagItem.votes - (updatesLastWeek[0]?.votes || forslagItem.votes);
+  const votesThisDay = forslagItem.votes - (updatesLast24Hours[0]?.votes || forslagItem.votes);
 
-  const votesPerDay = getVotesPerDay(forslag);
+  const votesPerDay = getVotesPerDay(forslagItem);
 
   return {
-    ...forslag,
+    ...forslagItem,
     votesThisWeek,
     votesThisDay,
     votesPerDay,
@@ -81,6 +81,10 @@ const enrichForslagWithUpdates = ({ forslag, updates }) => forslag.map((forslag)
 
 const getVotesPerDay = (forslag) => {
   const forslagDate = parseLocaleDate(forslag.date);
+
+  if (!(forslagDate instanceof Date && !isNaN(forslagDate))) {
+    console.log(forslag.date);
+  }
   const today = new Date();
   const dayDifference = Math.floor((today - forslagDate) / (1000 * 3600 * 24));
 

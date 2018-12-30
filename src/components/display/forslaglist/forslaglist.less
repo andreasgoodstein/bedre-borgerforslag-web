@@ -1,17 +1,30 @@
 .forslag-list {
 
-    &__sort-selector {
-        text-align: center;  
+    &__selectors {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
 
-        p {
-            display: inline;
-            margin: 0 5px 0 0;
+        @media screen and (max-width: 666px) {
+            flex-direction: column;
         }
 
-        select {
-            padding: 10px;
+        .filter-selector,
+        .sort-selector {
+            margin: 5px;
+            text-align: center;  
+
+            p {
+                display: inline;
+                margin: 0 5px 0 0;
+            }
+    
+            select {
+                padding: 10px;
+            }
         }
-    }
+    }    
 
     &__list {
         align-items: center;
