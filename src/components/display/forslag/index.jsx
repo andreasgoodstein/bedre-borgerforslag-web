@@ -9,7 +9,12 @@ import './forslag.less';
 
 const Forslag = ({ forslag }) => (
   <article className="display-forslag column centered" role="listitem">
-    <a href={getForslagLink(forslag.url)} target="_blank" rel="noopener noreferrer" aria-label="Se mere om forslaget på borgerforslag.dk">
+    <a
+      href={getForslagLink(forslag.url)}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Se mere om forslaget på borgerforslag.dk"
+    >
       <div className="display-forslag__title row centered">
         <p>{forslag.externalId}</p>
       </div>
@@ -19,12 +24,13 @@ const Forslag = ({ forslag }) => (
       </div>
 
       <div className="display-forslag__content column">
-
         <hr />
 
         <div className="votes row">
           <p>Støtter</p>
-          <p><b>{forslag.votes}</b></p>
+          <p>
+            <b>{forslag.votes}</b>
+          </p>
         </div>
 
         <div className="rate row">
@@ -66,7 +72,6 @@ Forslag.propTypes = {
 
 export default Forslag;
 
-
 const getLocaleDateString = (date) => {
   if (!date) {
     return '';
@@ -74,7 +79,7 @@ const getLocaleDateString = (date) => {
 
   const forslagdate = parseLocaleDate(date);
 
-  return forslagdate.toLocaleDateString();
+  return forslagdate.toLocaleDateString('da');
 };
 
 const getEndDateString = (date) => {
@@ -86,7 +91,7 @@ const getEndDateString = (date) => {
   const endDate = new Date(forslagDate.getTime());
   endDate.setDate(forslagDate.getDate() + 180);
 
-  return endDate.toLocaleDateString();
+  return endDate.toLocaleDateString('da');
 };
 
-const getForslagLink = url => `https://www.borgerforslag.dk${url}`;
+const getForslagLink = (url) => `https://www.borgerforslag.dk${url}`;
