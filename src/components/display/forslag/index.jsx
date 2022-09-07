@@ -34,17 +34,7 @@ const Forslag = ({ forslag }) => (
         </div>
 
         <div className="rate row">
-          <p>Siden i går</p>
-          <p>{forslag.votesThisDay}</p>
-        </div>
-
-        <div className="rate row">
-          <p>Den sidste uge</p>
-          <p>{forslag.votesThisWeek}</p>
-        </div>
-
-        <div className="rate row">
-          <p>Pr. dag siden oprettelse</p>
+          <p>Pr. dag (siden oprettelse)</p>
           <p>{forslag.votesPerDay}</p>
         </div>
 
@@ -60,6 +50,10 @@ const Forslag = ({ forslag }) => (
         <div className="date row">
           <p>Slutdato</p>
           <p>{getEndDateString(forslag.date)}</p>
+        </div>
+
+        <div className="row">
+          <p>{forslag.status === 'ongoing' ? 'Aktiv' : 'Afsluttet'}</p>
         </div>
       </div>
     </a>

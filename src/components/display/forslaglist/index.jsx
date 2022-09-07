@@ -13,8 +13,8 @@ class ForslagList extends React.PureComponent {
     super(props);
 
     this.state = {
-      selectedSort: 'votesThisWeek',
-      selectedFilter: 'all',
+      selectedSort: 'votes',
+      selectedFilter: 'ongoing',
     };
 
     this.handleSortSelected = this.handleSortSelected.bind(this);
@@ -43,10 +43,8 @@ class ForslagList extends React.PureComponent {
               onChange={this.handleSortSelected}
               aria-labelledby="sort-label"
             >
-              <option value="votesThisWeek">Støtter den sidste uge</option>
-              <option value="votesThisDay">Støtter det sidste døgn</option>
-              <option value="votesPerDay">Støtter per dag</option>
               <option value="votes">Antal støtter</option>
+              <option value="votesPerDay">Støtter per dag</option>
               <option value="date">Nyeste</option>
             </select>
           </div>
@@ -58,17 +56,16 @@ class ForslagList extends React.PureComponent {
               onChange={this.handleFilterSelected}
               aria-labelledby="filter-label"
             >
+              <option value="ongoing">Igangværende</option>
+              <option value="finished">Afsluttet</option>
               <option value="all">Alle</option>
-              <option value="Available">Igangværende</option>
-              <option value="Accepted">Accepteret</option>
-              <option value="PlainView">Udløbet</option>
             </select>
           </div>
         </div>
 
         <section className="forslag-list__list" role="list">
           {getSortedForslagElements(
-            forslagList.filter(getStatusFilter(selectedFilter)),
+            forslagList?.filter(getStatusFilter(selectedFilter)) || [],
             selectedSort
           )}
         </section>
@@ -94,13 +91,17 @@ const getSortedForslagElements = (forslagList, sortKey) => {
 
     default:
       return forslagList
-        .sort((a, b) => b[sortKey] - a[sortKey])
+        .sort((a, b) => (b && a ? b[sortKey] - a[sortKey] : 1))
         .map(getForslagElement);
   }
 };
 
 const getStatusFilter = (filterKey) => (forslag) =>
-  filterKey === 'all' || filterKey === forslag.status;
+  filterKey === 'all' ||
+  (filterKey === 'ongoing' &&
+    forslag.status === 'ongoing' &&
+    forslag.votes < 50000) ||
+  (filterKey !== 'ongoing' && filterKey === forslag.status);
 
 const getForslagElement = (forslag) => (
   <Forslag key={forslag.externalId} forslag={forslag} />

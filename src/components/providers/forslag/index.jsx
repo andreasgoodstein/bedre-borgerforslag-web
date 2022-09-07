@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { FORSLAG_URL, UPDATE_URL } from 'config';
+import { FORSLAG_OPTIONS, FORSLAG_URL } from 'config';
 
-import { registerMessageListener } from 'service-worker';
 import { dateIsOlderThanDays, parseLocaleDate } from 'helpers/date';
 
 class ForslagProvider extends React.PureComponent {
@@ -11,40 +10,31 @@ class ForslagProvider extends React.PureComponent {
     super(props);
 
     this.state = {
-      forslag: [],
-      updates: [],
+      forslagList: [],
     };
-
-    registerMessageListener(this.handleForslagMessage.bind(this));
   }
 
   async componentDidMount() {
-    const [forslagResponse, updateResponse] = await Promise.all([fetch(FORSLAG_URL), fetch(UPDATE_URL)]);
-    const [forslag, updates] = await Promise.all([forslagResponse.json(), updateResponse.json()]);
+    const [{ data }] = await Promise.all([
+      (
+        await fetch(FORSLAG_URL, {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+          },
+          body: JSON.stringify(FORSLAG_OPTIONS),
+        })
+      ).json(),
+    ]);
 
-    this.setState(oldState => ({
-      forslag,
-      updates,
+    this.setState(() => ({
+      forslagList: enrichForslagWithUpdates({ forslagList: data }),
     }));
-  }
-
-  handleForslagMessage(message) {
-    const { forslag, updates } = message.data;
-
-    if (forslag) {
-      this.setState(oldState => ({
-        forslag,
-      }));
-    } else if (updates) {
-      this.setState(oldState => ({
-        updates,
-      }));
-    }
   }
 
   render() {
     const { children } = this.props;
-    const forslagList = enrichForslagWithUpdates(this.state);
+    const { forslagList } = this.state;
 
     return React.cloneElement(children, { forslagList });
   }
@@ -56,35 +46,21 @@ ForslagProvider.propTypes = {
 
 export default ForslagProvider;
 
-const enrichForslagWithUpdates = ({ forslag, updates }) => forslag.map((forslagItem) => {
-  const forslagUpdates = updates.filter(update => update.externalId === forslagItem.externalId);
-
-  const updatesLastWeek = forslagUpdates.filter(update => dateIsOlderThanDays(update.updated, 8))
-    .sort((a, b) => b.updated - a.updated);
-
-  const updatesLast24Hours = updatesLastWeek.filter(update => dateIsOlderThanDays(update.updated, 2))
-    .sort((a, b) => b.updated - a.updated);
-
-
-  const votesThisWeek = forslagItem.votes - (updatesLastWeek[0]?.votes || forslagItem.votes);
-  const votesThisDay = forslagItem.votes - (updatesLast24Hours[0]?.votes || forslagItem.votes);
-
-  const votesPerDay = getVotesPerDay(forslagItem);
-
-  return {
-    ...forslagItem,
-    votesThisWeek,
-    votesThisDay,
-    votesPerDay,
-  };
-});
+const enrichForslagWithUpdates = ({ forslagList }) =>
+  forslagList
+    ? forslagList.map((forslag) => ({
+        ...forslag,
+        votesPerDay: getVotesPerDay(forslag),
+      }))
+    : [];
 
 const getVotesPerDay = (forslag) => {
   const forslagDate = parseLocaleDate(forslag.date);
 
-  if (!(forslagDate instanceof Date && !isNaN(forslagDate))) {
-    console.log(forslag.date);
+  if (!(forslagDate instanceof Date && !Number.isNaN(forslagDate))) {
+    console.warn('Bad date', forslag.date);
   }
+
   const today = new Date();
   const dayDifference = Math.floor((today - forslagDate) / (1000 * 3600 * 24));
 

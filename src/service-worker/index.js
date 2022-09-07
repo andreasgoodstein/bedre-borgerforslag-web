@@ -3,9 +3,3 @@ export const registerServiceWorker = async () => {
     await navigator.serviceWorker.register('./service-worker.js');
   }
 };
-
-export const registerMessageListener = (messageHandler) => {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.addEventListener('message', messageHandler);
-  }
-};

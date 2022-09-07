@@ -8,6 +8,4 @@ export default {
   url: PropTypes.string,
   status: PropTypes.string,
   votesPerDay: PropTypes.number,
-  votesThisDay: PropTypes.number,
-  votesThisWeek: PropTypes.number,
 };
